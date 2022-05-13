@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter.ttk import Progressbar
+import F1Api
 
 class RunningF1app():
     def __init__(self) -> Tk:
@@ -18,14 +19,13 @@ class RunningF1app():
         root.mainloop()
     
 
-    def LoadingFrame(self, master):
-        def barProgressing(bar):
+    def LoadingFrame(self, master: Tk):
+        def barProgressing(bar: Progressbar):
             import time
-            for i in range(5):
-                bar["value"] += 20
+            for i in range(2):
+                bar["value"] += 50
                 master.update_idletasks()
                 time.sleep(1)
-                loading_frm.destroy()
         
         loading_frm = Frame(master)
         loading_frm.rowconfigure(0, weight=1)
@@ -43,10 +43,48 @@ class RunningF1app():
             length=500,
             mode="determinate"
         )
-        loadingBar.grid(row=1, column=0)
+        loadingBar.grid(row=0, column=0, sticky='s')
         barProgressing(loadingBar)
+        loading_frm.destroy()
         self.MainFrame(master)
 
+
+    def MainFrame(self, master: Tk):
+        print("In MainFrame Function")
+        main_frm = Frame(master)
+        main_frm.rowconfigure(0, weight=1)
+        main_frm.rowconfigure(1, weight=3)
+        main_frm.columnconfigure(0, weight=1)
+        main_frm.grid(row=0, column=0, sticky="news")
+
+        header_frm = Frame(main_frm, bg="red")
+        header_frm.rowconfigure(0, weight=1)
+        header_frm.columnconfigure(0, weight=1)
+        header_frm.grid(row=0, column=0, sticky="news")
+        
+        grand_prix_frm = Frame(main_frm, bg="white")
+        grand_prix_frm.grid(row=1, column=0, sticky="news")
+
+        # * Header
+        Label(
+            header_frm,
+            text = "Grand Prix",
+            font = "Verdana 50 bold",
+            bg = "red",
+            fg = "white"
+        ).grid(row=0, column=0)
+
+        grand_prix_dict = F1Api.getGrandPrix()
+        i = 0 
+        for key, value in grand_prix_dict.items():
+            Label(
+                grand_prix_frm,
+                text = key,
+                fg = "black",
+                bg = "white",
+                font = "verdana 16"
+            ).grid(row=i ,column=0, pady=4)
+            i += 1
 
     def downloadImg(self):
         global logo_img
