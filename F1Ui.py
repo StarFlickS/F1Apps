@@ -63,6 +63,7 @@ class RunningF1app():
         header_frm.grid(row=0, column=0, sticky="news")
         
         grand_prix_frm = Frame(main_frm, bg="white")
+        grand_prix_frm.columnconfigure((0,1), weight=1)
         grand_prix_frm.grid(row=1, column=0, sticky="news")
 
         # * Header
@@ -77,13 +78,23 @@ class RunningF1app():
         grand_prix_dict = F1Api.getGrandPrix()
         i = 0 
         for key, value in grand_prix_dict.items():
+            
             Label(
                 grand_prix_frm,
                 text = key,
                 fg = "black",
                 bg = "white",
                 font = "verdana 16"
-            ).grid(row=i ,column=0, pady=4)
+            ).grid(row=i ,column=0, pady=3)
+
+            Label(
+                grand_prix_frm,
+                text = value,
+                fg = "black",
+                bg = "white",
+                font = "verdana 16"
+            ).grid(row=i ,column=1, pady=3)
+
             i += 1
 
     def downloadImg(self):
