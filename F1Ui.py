@@ -25,6 +25,7 @@ class RunningF1app():
                 bar["value"] += 20
                 master.update_idletasks()
                 time.sleep(1)
+                loading_frm.destroy()
         
         loading_frm = Frame(master)
         loading_frm.rowconfigure(0, weight=1)
@@ -44,6 +45,7 @@ class RunningF1app():
         )
         loadingBar.grid(row=1, column=0)
         barProgressing(loadingBar)
+        self.MainFrame(master)
 
 
     def downloadImg(self):
