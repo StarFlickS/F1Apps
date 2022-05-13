@@ -17,7 +17,15 @@ class RunningF1app():
         self.LoadingFrame(root)
         root.mainloop()
     
+
     def LoadingFrame(self, master):
+        def barProgressing(bar):
+            import time
+            for i in range(5):
+                bar["value"] += 20
+                master.update_idletasks()
+                time.sleep(1)
+        
         loading_frm = Frame(master)
         loading_frm.rowconfigure(0, weight=1)
         loading_frm.columnconfigure(0, weight=1)
@@ -26,15 +34,17 @@ class RunningF1app():
         Label(
             loading_frm,
             image=logo_img
-        ).grid(row=0, column=0, sticky='s')
+        ).grid(row=0, column=0)
 
         loadingBar = Progressbar(
-            master,
+            loading_frm,
             orient=HORIZONTAL,
             length=500,
             mode="determinate"
         )
         loadingBar.grid(row=1, column=0)
+        barProgressing(loadingBar)
+
 
     def downloadImg(self):
         global logo_img
