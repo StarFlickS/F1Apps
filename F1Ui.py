@@ -102,10 +102,15 @@ class RunningF1app():
                 bg = "white",
                 font = "verdana 16",
                 borderless = 1,
-                justify=CENTER
+                justify=CENTER,
+                command=lambda: self.RaceFrame(i+1)
             ).grid(row=i ,column=0, sticky="news", pady=5)
 
             i += 1
+
+
+    def RaceFrame(round: int):
+        pass
 
 
     def downloadImg(self):
