@@ -61,10 +61,19 @@ class RunningF1app():
         header_frm.rowconfigure(0, weight=1)
         header_frm.columnconfigure(0, weight=1)
         header_frm.grid(row=0, column=0, sticky="news")
-        
-        grand_prix_frm = Frame(main_frm, bg="white")
-        grand_prix_frm.columnconfigure((0,1), weight=1)
-        grand_prix_frm.grid(row=1, column=0, sticky="news")
+
+        grand_prix_canvas = Canvas(main_frm, bg="yellow", highlightthickness=0)
+        grand_prix_canvas.columnconfigure(0, weight=1)
+        grand_prix_canvas.grid(row=1, column=0, sticky="news")
+
+        scrollbar = Scrollbar(main_frm, orient=VERTICAL, command=grand_prix_canvas.yview, width=20)
+        scrollbar.grid(row=1, column=0, sticky='nse')
+
+        grand_prix_canvas.configure(yscrollcommand=scrollbar.set)
+        grand_prix_canvas.bind("<Configure>", lambda e: grand_prix_canvas.configure(scrollregion= grand_prix_canvas.bbox("all")))
+
+        grand_prix_frm = Frame(grand_prix_canvas, bg="white")
+        grand_prix_canvas.create_window((350,0), window=grand_prix_frm, anchor="nw")
 
         # * Header
         Label(
@@ -79,22 +88,18 @@ class RunningF1app():
         i = 0 
         for key, value in grand_prix_dict.items():
             
-            Label(
-                grand_prix_frm,
-                text = key,
+            button_layout = Frame(grand_prix_frm, bg="yellow")
+            button_layout.rowconfigure(0, weight=1)
+            button_layout.columnconfigure(0, weight=1)
+            button_layout.grid(row=i, column=0, sticky="news")
+            
+            Button(
+                button_layout,
+                text = f"{key}\n{value}",
                 fg = "black",
                 bg = "white",
-                font = "verdana 16"
-            ).grid(row=i ,column=0, pady=3)
-
-            Label(
-                grand_prix_frm,
-                text = value,
-                fg = "black",
-                bg = "white",
-                font = "verdana 16"
-            ).grid(row=i ,column=1, pady=3)
-
+                font = "verdana 16",
+            ).grid(row=i ,column=0, sticky="news", pady=5)
             i += 1
 
     def downloadImg(self):
