@@ -73,8 +73,8 @@ class RunningF1app():
         grand_prix_canvas.configure(yscrollcommand=scrollbar.set)
         grand_prix_canvas.bind("<Configure>", lambda e: grand_prix_canvas.configure(scrollregion= grand_prix_canvas.bbox("all")))
 
-        grand_prix_frm = Frame(grand_prix_canvas, bg="white")
-        grand_prix_canvas.create_window((480,0), window=grand_prix_frm, anchor="nw")
+        grand_prix_frm = Frame(grand_prix_canvas, bg="lightgray")
+        grand_prix_canvas.create_window((150,0), window=grand_prix_frm, anchor="nw")
 
         # * Header
         Label(
@@ -86,15 +86,17 @@ class RunningF1app():
         ).grid(row=0, column=0)
 
         grand_prix_dict = F1Api.getGrandPrix()
-        i = 0 
+        i = 0
+        j = 0
+        x = 1
         for key, value in grand_prix_dict.items():
             
             button_layout = Frame(grand_prix_frm, bg="lightgray")
             button_layout.rowconfigure(0, weight=1)
             button_layout.columnconfigure(0, weight=1)
-            button_layout.grid(row=i, column=0, sticky="news")
+            button_layout.grid(row=i, column=j, sticky="news")
             
-            details = f"Round {i+1}\n{key}\n{value}"
+            details = f"Round {x}\n{key}\n{value}"
             Button(
                 button_layout,
                 text = details,
@@ -102,15 +104,21 @@ class RunningF1app():
                 bg = "white",
                 font = "verdana 16",
                 borderless = 1,
+                width=300,
                 justify=CENTER,
-                command=lambda: self.RaceFrame(i+1)
-            ).grid(row=i ,column=0, sticky="news", pady=5)
+                command=lambda round=x: self.RaceFrame(round)
+            ).grid(row=0 ,column=0, sticky="news", pady=5, padx=2)
 
-            i += 1
+            j += 1
+            if j == 3:
+                i += 1
+                j = 0
+            x += 1
 
 
-    def RaceFrame(round: int):
-        pass
+    def RaceFrame(self, round: int):
+        race_info = F1Api.getRace_info_by_round(round)
+
 
 
     def downloadImg(self):
@@ -120,4 +128,3 @@ class RunningF1app():
     
 if __name__ == "__main__":
     RunningF1app()
-    
