@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter.ttk import Progressbar
+from tkmacosx import Button
 import F1Api
 
 class RunningF1app():
@@ -62,7 +63,7 @@ class RunningF1app():
         header_frm.columnconfigure(0, weight=1)
         header_frm.grid(row=0, column=0, sticky="news")
 
-        grand_prix_canvas = Canvas(main_frm, bg="yellow", highlightthickness=0)
+        grand_prix_canvas = Canvas(main_frm, bg="lightgray", highlightthickness=0)
         grand_prix_canvas.columnconfigure(0, weight=1)
         grand_prix_canvas.grid(row=1, column=0, sticky="news")
 
@@ -73,7 +74,7 @@ class RunningF1app():
         grand_prix_canvas.bind("<Configure>", lambda e: grand_prix_canvas.configure(scrollregion= grand_prix_canvas.bbox("all")))
 
         grand_prix_frm = Frame(grand_prix_canvas, bg="white")
-        grand_prix_canvas.create_window((350,0), window=grand_prix_frm, anchor="nw")
+        grand_prix_canvas.create_window((480,0), window=grand_prix_frm, anchor="nw")
 
         # * Header
         Label(
@@ -88,19 +89,24 @@ class RunningF1app():
         i = 0 
         for key, value in grand_prix_dict.items():
             
-            button_layout = Frame(grand_prix_frm, bg="yellow")
+            button_layout = Frame(grand_prix_frm, bg="lightgray")
             button_layout.rowconfigure(0, weight=1)
             button_layout.columnconfigure(0, weight=1)
             button_layout.grid(row=i, column=0, sticky="news")
             
+            details = f"Round {i+1}\n{key}\n{value}"
             Button(
                 button_layout,
-                text = f"{key}\n{value}",
+                text = details,
                 fg = "black",
                 bg = "white",
                 font = "verdana 16",
+                borderless = 1,
+                justify=CENTER
             ).grid(row=i ,column=0, sticky="news", pady=5)
+
             i += 1
+
 
     def downloadImg(self):
         global logo_img
